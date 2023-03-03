@@ -1,0 +1,88 @@
+---
+title: "Calculette GHT HAD"
+format: html
+---
+
+Calculette de GHT HAD en fonction du triplet MPP / MPA / IK et d'un seuil de durée de séquence
+
+```{r include=FALSE}
+library(htmltools)
+library(shiny)
+library(reactable)
+library(crosstalk)
+library(chadculette)
+```
+
+### Filtrez le tableau de droite avec les éléments de gauche
+
+```{r echo = FALSE}
+shared_bdd <- SharedData$new(bdd)
+bscols(
+    device = "lg",
+    widths = c(2, NA),
+    list(
+        filter_select(
+            id = "mpp",
+            label = "MPP",
+            sharedData = shared_bdd,
+            group = ~mpp
+        ),
+        filter_select(
+            id = "mpa",
+            label = "MPA",
+            sharedData = shared_bdd,
+            group = ~mpa
+        ),
+        filter_select(
+            id = "ik",
+            label = "IK",
+            sharedData = shared_bdd,
+            group = ~ik
+        ),
+        filter_select(
+            id = "tranche",
+            label = "Tranche",
+            sharedData = shared_bdd,
+            group = ~tranche
+        ), 
+        filter_select(
+            id = "ghpc",
+            label = "GHPC",
+            sharedData = shared_bdd,
+            group = ~ghpc
+        ),
+        filter_select(
+            id = "ght",
+            label = "GHT",
+            sharedData = shared_bdd,
+            group = ~ght
+        )
+    ),
+    reactable(
+        shared_bdd,
+        columns = list(
+            mpp = colDef(name = "MPP",
+                         minWidth = 75),
+            mpa = colDef(name = "MPA",
+                         minWidth = 75),
+            ik = colDef(name = "IK",
+                        minWidth = 75),
+            tranche = colDef(name = "Tranche",
+                             minWidth = 100),
+            ght = colDef(name = "GHT",
+                         minWidth = 75),
+            ghpc = colDef(name = "GHPC",
+                          minWidth = 100),
+            inat = colDef(name = "Assoc. inattendue",
+                          minWidth = 150)
+        ),
+        bordered = TRUE,
+        highlight = TRUE,
+        compact = FALSE,
+        fullWidth = FALSE,
+        defaultColDef = colDef(vAlign = "center", headerVAlign = "bottom")
+    )
+)
+```
+
+Raphaël SIMON ATIH 2023

@@ -117,6 +117,16 @@ tagList(
                              minWidth = 100),
             ght = colDef(name = "GHT",
                          minWidth = 75),
+            tarif_pub = colDef(name = "Public", 
+                               format = colFormat(
+                                   suffix = "€"
+                               )
+            ),
+            tarif_pri = colDef(name = "Privé",
+                               format = colFormat(
+                                   suffix = "€"
+                               )
+            ),
             ghpc = colDef(name = "GHPC",
                           minWidth = 100),
             inat = colDef(name = "Assoc. inattendue",
@@ -133,8 +143,6 @@ tagList(
     )
 )
 ```
-
-
 
 <br>
 

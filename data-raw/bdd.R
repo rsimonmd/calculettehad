@@ -4,6 +4,7 @@ library(dplyr, warn.conflicts = FALSE)
 
 dta_raw <- readxl::read_excel("data-raw/ghpc_2022.xlsx", sheet = 3)
 dta_libs_mps <- readxl::read_excel("data-raw/lib_mps.xlsx")
+dta_tarifs <- readxl::read_excel("data-raw/tarifs2022.xlsx")
 
 dta_select <-
     dta_raw |> 
@@ -89,7 +90,11 @@ dta_join <-
     left_join(
         y = dta_ght,
         by = join_by(pond >= lower_pond, pond < upper_pond)
-    ) 
+    ) |> 
+    left_join(
+        y = dta_tarifs,
+        by = "ght"
+    )
 
 # Ajout des libellés pour select
 
@@ -115,7 +120,7 @@ dta_libs <-
 bdd <-
     dta_libs |> 
     select(
-        mpp, libmpp, mpa, libmpa, ik, tranche, ght, ghpc, inat
+        mpp, libmpp, mpa, libmpa, ik, tranche, ghpc, ght, tarif_pub, tarif_pri, inat
     ) |> 
     arrange(
         mpp,

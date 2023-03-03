@@ -1,0 +1,136 @@
+---
+title: "Calculette GHT HAD"
+output:
+    flexdashboard::flex_dashboard:
+        vertical_layout: fill
+        theme:
+            version: 4
+            bootswatch: cyborg
+---
+
+```{r include=FALSE}
+library(htmltools)
+library(shiny)
+library(reactable)
+library(reactablefmtr)
+library(crosstalk)
+library(chadculette)
+library(flexdashboard)
+```
+
+<!-- Load the data -->
+
+```{r load}
+shared_bdd <- SharedData$new(bdd)
+```
+
+Inputs {.sidebar}
+-------------------------------------
+
+### Filtres
+
+<br>
+
+Calculette de GHT HAD en fonction du triplet MPP / MPA / IK et d'un seuil de durée de séquence
+
+```{r}
+filter_select(
+    id = "mpp",
+    label = "MPP",
+    sharedData = shared_bdd,
+    group = ~libmpp
+)
+```
+
+```{r}
+filter_select(
+    id = "mpa",
+    label = "MPA",
+    sharedData = shared_bdd,
+    group = ~libmpa
+)
+```
+
+```{r}
+filter_select(
+    id = "ik",
+    label = "IK",
+    sharedData = shared_bdd,
+    group = ~ik
+)
+```
+
+```{r}
+filter_select(
+    id = "tranche",
+    label = "Tranche",
+    sharedData = shared_bdd,
+    group = ~tranche
+)
+```
+
+```{r}
+filter_select(
+    id = "ghpc",
+    label = "GHPC",
+    sharedData = shared_bdd,
+    group = ~ghpc
+)
+```
+
+```{r}
+filter_select(
+    id = "ght",
+    label = "GHT",
+    sharedData = shared_bdd,
+    group = ~ght
+)
+```
+
+Column
+-------------------------------------
+
+### 
+
+```{r}
+tagList(
+    reactable(
+        shared_bdd,
+        theme = cyborg(
+            font_color = "#FFFFFF",
+            header_font_color = "#FFFFFF",
+            header_font_size = 18,
+            font_size = 16,
+            centered = FALSE
+        ),
+        defaultColDef = colDef(align = "center"),
+        columns = list(
+            mpp = colDef(name = "MPP",
+                         minWidth = 75),
+            libmpp = colDef(show = FALSE),
+            mpa = colDef(name = "MPA",
+                         minWidth = 75),
+            libmpa = colDef(show = FALSE),
+            ik = colDef(name = "IK",
+                        minWidth = 75),
+            tranche = colDef(name = "Tranche",
+                             minWidth = 100),
+            ght = colDef(name = "GHT",
+                         minWidth = 75),
+            ghpc = colDef(name = "GHPC",
+                          minWidth = 100)
+        ),
+        bordered = TRUE,
+        highlight = TRUE,
+        compact = FALSE,
+        fullWidth = TRUE
+    )
+)
+```
+
+
+
+<br>
+
+ATIH 2023
+Raphaël SIMON - raphael.simon@atih.sante.fr

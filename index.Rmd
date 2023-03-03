@@ -118,7 +118,9 @@ tagList(
             ght = colDef(name = "GHT",
                          minWidth = 75),
             ghpc = colDef(name = "GHPC",
-                          minWidth = 100)
+                          minWidth = 100),
+            inat = colDef(name = "Assoc. inattendue",
+                          minWidth = 150)
         ),
         bordered = FALSE,
         sortable = TRUE,

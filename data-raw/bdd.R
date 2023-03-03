@@ -115,7 +115,7 @@ dta_libs <-
 bdd <-
     dta_libs |> 
     select(
-        mpp, libmpp, mpa, libmpa, ik, tranche, ght, ghpc
+        mpp, libmpp, mpa, libmpa, ik, tranche, ght, ghpc, inat
     ) |> 
     arrange(
         mpp,

@@ -120,10 +120,14 @@ tagList(
             ghpc = colDef(name = "GHPC",
                           minWidth = 100)
         ),
-        bordered = TRUE,
+        bordered = FALSE,
+        sortable = TRUE,
+        outlined = TRUE,
         highlight = TRUE,
         compact = FALSE,
-        fullWidth = TRUE
+        fullWidth = TRUE,
+        filterable = TRUE, 
+        defaultPageSize = 18
     )
 )
 ```

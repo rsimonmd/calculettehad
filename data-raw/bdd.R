@@ -29,6 +29,13 @@ dta_pivot <-
         ),
         names_to = "tranche",
         values_to = "pond"
+    ) |> 
+    mutate(
+        tranche = factor(
+            tranche,
+            levels = c("t1", "t2", "t3", "t4"),
+            labels = c("J1-J4", "J5-J9", "J10-J30", "J31-sortie")
+        )
     )
 
 dta_mutateik <-
@@ -82,16 +89,7 @@ dta_join <-
     left_join(
         y = dta_ght,
         by = join_by(pond >= lower_pond, pond < upper_pond)
-    ) |> 
-    mutate(
-        tranche = case_when(
-            tranche == "t1" ~ "J1-J4",
-            tranche == "t2" ~ "J5-J9",
-            tranche == "t3" ~ "J10-J30",
-            tranche == "t4" ~ "J31-sortie",
-            TRUE ~ "erreur"
-        )
-    )
+    ) 
 
 # Ajout des libellés pour select
 
@@ -109,7 +107,8 @@ dta_libs <-
     rename(libmpa = libmp) |> 
     mutate(
         libmpp = paste0(mpp, " : ", libmpp),
-        libmpa = paste0(mpa, " : ", libmpa)
+        libmpa = paste0(mpa, " : ", libmpa),
+        ik = as.integer(ik)
     )
     
 
@@ -117,6 +116,12 @@ bdd <-
     dta_libs |> 
     select(
         mpp, libmpp, mpa, libmpa, ik, tranche, ght, ghpc
+    ) |> 
+    arrange(
+        mpp,
+        mpa,
+        ik,
+        tranche
     )
 
 usethis::use_data(bdd, overwrite = TRUE)

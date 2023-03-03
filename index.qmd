@@ -27,13 +27,13 @@ bscols(
             id = "mpp",
             label = "MPP",
             sharedData = shared_bdd,
-            group = ~mpp
+            group = ~libmpp
         ),
         filter_select(
             id = "mpa",
             label = "MPA",
             sharedData = shared_bdd,
-            group = ~mpa
+            group = ~libmpa
         ),
         filter_select(
             id = "ik",
@@ -65,8 +65,10 @@ bscols(
         columns = list(
             mpp = colDef(name = "MPP",
                          minWidth = 75),
+            libmpp = colDef(show = FALSE),
             mpa = colDef(name = "MPA",
                          minWidth = 75),
+            libmpa = colDef(show = FALSE),
             ik = colDef(name = "IK",
                         minWidth = 75),
             tranche = colDef(name = "Tranche",
@@ -74,9 +76,7 @@ bscols(
             ght = colDef(name = "GHT",
                          minWidth = 75),
             ghpc = colDef(name = "GHPC",
-                          minWidth = 100),
-            inat = colDef(name = "Assoc. inattendue",
-                          minWidth = 150)
+                          minWidth = 100)
         ),
         bordered = TRUE,
         highlight = TRUE,

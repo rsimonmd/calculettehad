@@ -3,6 +3,7 @@
 library(dplyr, warn.conflicts = FALSE)
 
 dta_raw <- readxl::read_excel("data-raw/ghpc_2022.xlsx", sheet = 3)
+dta_libs_mps <- readxl::read_excel("data-raw/lib_mps.xlsx")
 
 dta_select <-
     dta_raw |> 
@@ -76,58 +77,46 @@ dta_ght <-
         ght = 1:31
     )
 
-dta_final <-
+dta_join <-
     dta_pivotik |> 
     left_join(
         y = dta_ght,
         by = join_by(pond >= lower_pond, pond < upper_pond)
+    ) |> 
+    mutate(
+        tranche = case_when(
+            tranche == "t1" ~ "J1-J4",
+            tranche == "t2" ~ "J5-J9",
+            tranche == "t3" ~ "J10-J30",
+            tranche == "t4" ~ "J31-sortie",
+            TRUE ~ "erreur"
+        )
     )
 
+# Ajout des libellés pour select
 
-# dta_final <-
-#     dta_pivotik |> 
-#     mutate(
-#         ght = case_when(
-#             pond < .57 ~ "00",
-#             pond < .77 ~ "",
-#             pond < .97 ~ "",
-#             pond < 1.17 ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ "",
-#             pond <  ~ ""
-#         )
-#     )
+dta_libs <- 
+    dta_join |> 
+    left_join(
+        y = dta_libs_mps,
+        by = c("mpp" = "code")
+    ) |> 
+    rename(libmpp = libmp) |> 
+    left_join(
+        y = dta_libs_mps,
+        by = c("mpa" = "code")
+    ) |> 
+    rename(libmpa = libmp) |> 
+    mutate(
+        libmpp = paste0(mpp, " : ", libmpp),
+        libmpa = paste0(mpa, " : ", libmpa)
+    )
+    
 
 bdd <-
-    dta_final |> 
+    dta_libs |> 
     select(
-        mpp, mpa, ik, tranche, ght, ghpc, inat
+        mpp, libmpp, mpa, libmpa, ik, tranche, ght, ghpc
     )
 
 usethis::use_data(bdd, overwrite = TRUE)

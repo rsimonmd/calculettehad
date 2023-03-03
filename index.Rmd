@@ -87,6 +87,9 @@ filter_select(
 )
 ```
 
+ATIH 2023
+Raphaël SIMON - raphael.simon@atih.sante.fr
+
 Column
 -------------------------------------
 
@@ -146,5 +149,5 @@ tagList(
 
 <br>
 
-ATIH 2023
-Raphaël SIMON - raphael.simon@atih.sante.fr
+NB : pour les SSIAD le tarif est réduit de 7% et pour les EPHA de 13%
+Tarifs affichés = 2022
